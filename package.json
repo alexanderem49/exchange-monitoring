@@ -1,0 +1,25 @@
+{
+  "name": "exchange-monitoring",
+  "version": "1.0.0",
+  "description": "Exchange monitoring tool",
+  "main": "scripts/monitoring.ts",
+  "scripts": {
+    "build-docker": "docker build -t exchange-monitoring .",
+    "run-docker": "docker container run -it --rm --name exchange-monitoring exchange-monitoring",
+    "run": "npx hardhat run scripts/monitoring.ts",
+    "deploy": "aws ecr get-login-password --region $EXCHANGE_MONITORING_ECR_REGION | docker login --username AWS --password-stdin $EXCHANGE_MONITORING_ECR_URL && docker build -t $EXCHANGE_MONITORING_ECR_PACKAGE . && docker tag $EXCHANGE_MONITORING_ECR_PACKAGE:latest $EXCHANGE_MONITORING_ECR_URL/$EXCHANGE_MONITORING_ECR_PACKAGE:latest && docker push $EXCHANGE_MONITORING_ECR_URL/$EXCHANGE_MONITORING_ECR_PACKAGE:latest"
+  },
+  "author": "Alexander Malyshev",
+  "license": "ISC",
+  "devDependencies": {
+    "@nomicfoundation/hardhat-toolbox": "^2.0.2",
+    "@openzeppelin/contracts": "^4.9.2",
+    "dotenv": "^16.3.1",
+    "googleapis": "^122.0.0",
+    "hardhat": "^2.16.1",
+    "typescript": "^5.1.6"
+  },
+  "dependencies": {
+    "@aws-sdk/client-secrets-manager": "^3.369.0"
+  }
+}
